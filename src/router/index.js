@@ -6,19 +6,19 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "home",
+    name: "index",
     component: () => import("../views/home/index.vue"),
-    redirect: "/home"
+    redirect: "/index"
   },
   {
-    path: "/home",
-    name: "home",
+    path: "/index",
+    name: "index",
     component: () => import("../views/home/index.vue"),
     redirect: "/home/zong",
     children: [
       {
         path: "/home/zong",
-        name: "zong",
+        name: "homezong",
         component: () => import("../views/home/zong.vue"),
         redirect: "/home/zong/houShou",
         children: [
@@ -35,8 +35,8 @@ const routes = [
         ]
       },
       {
-        path: "/shangpin",
-        name: "shangpin",
+        path: "/shop/goods/list",
+        name: "shop/goods/list",
         component: () => import("../views/shangpin/index.vue"),
         redirect: "/shangpin/liebiao",
         children: [
@@ -68,8 +68,8 @@ const routes = [
         ]
       },
       {
-        path: "/dingdan",
-        name: "dingdan",
+        path: "/order/order/list",
+        name: "order/order/list",
         component: () => import("../views/dingdan/index.vue"),
         redirect: "/dingdan/dingguan",
         children: [
@@ -91,8 +91,8 @@ const routes = [
         ]
       },
       {
-        path: "/huiyuan",
-        name: "huiyuan",
+        path: "/user/user-list/list",
+        name: "user/user-list/list",
         component: () => import("../views/huiyuan/index.vue"),
         redirect: "/huiyuan/huilie",
         children: [
@@ -109,8 +109,8 @@ const routes = [
         ]
       },
       {
-        path: "/shezhi",
-        name: "shezhi",
+        path: "/set/base",
+        name: "set/base",
         component: () => import("../views/shezhi/index.vue"),
         redirect: "/shezhi/jichu",
         children: [

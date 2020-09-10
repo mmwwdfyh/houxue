@@ -14,7 +14,7 @@
         </el-dropdown-menu>
       </el-dropdown>
       <ul>
-        <li v-for="(item,index) in room" :key="index" @click="toogle(item.id)">{{ item.name }}</li>
+        <li v-for="(item,index) in room"  :key="index" :class="activefyh == index ? 'active' : ''" @click="toogle(index)">{{ item.name }}</li>
       </ul>
     </div>
     <router-view />
@@ -26,7 +26,8 @@
 export default {
   data() {
     return {
-      room: []
+      room: [],
+      activefyh:0
     };
   },
   created() {
@@ -38,21 +39,29 @@ export default {
   mounted() {},
   methods: {
     toogle(id) {
-      if (id == 5) {
-        this.$router.push("/home");
-      }
-      if (id == 6) {
-        this.$router.push("/shangpin");
-      }
-      if (id == 7) {
-        this.$router.push("/dingdan");
-      }
-      if (id == 8) {
-        this.$router.push("/huiyuan");
-      }
-      if (id == 9) {
-        this.$router.push("/shezhi");
-      }
+      this.activefyh = id;
+      console.log(this.active);
+      const a = this.room[id].desc;
+      // console.log(a)
+      const str = a.replace(/_/g, "/");
+      // // console.log(this.headerList[i].child);
+      this.$router.push("/" + str);
+      console.log(str);
+      // if (id == 5) {
+      //   this.$router.push("/home");
+      // }
+      // if (id == 6) {
+      //   this.$router.push("/shangpin");
+      // }
+      // if (id == 7) {
+      //   this.$router.push("/dingdan");
+      // }
+      // if (id == 8) {
+      //   this.$router.push("/huiyuan");
+      // }
+      // if (id == 9) {
+      //   this.$router.push("/shezhi");
+      // }
       // console.log(id);
     },
     handle(command) {
@@ -71,7 +80,7 @@ export default {
       localStorage.removeItem("ff_token");
       //清除本地储存的信息
       localStorage.removeItem("ff_info");
-      this.$router.push("/login")
+      this.$router.push("/login");
     }
   }
 };
@@ -148,5 +157,12 @@ export default {
   /deep/.popper__arrow {
     display: none;
   }
+}
+.active {
+  color: rgb(255, 208, 75);
+  background-color: rgb(84, 92, 100);
+  border-bottom: 2px solid rgb(255, 208, 75);
+  box-sizing: border-box;
+  height: 60px;
 }
 </style>
