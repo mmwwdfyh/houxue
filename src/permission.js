@@ -3,7 +3,7 @@
 // 引入路由
 import router from "./router/index"
 // 引入登录
-import loginApp from "./api/test"
+// import loginApp from "./api/test"
 
 
 
@@ -14,7 +14,7 @@ router.beforeEach((to, from, next) => {
     if (!token) {
         //要跳转的是非登录页
         if (to.path !== "/login") {
-            localStorage.removeItem("shuju")
+            localStorage.removeItem("ff_shuju")
             next("/login")
         } else {
             next()
@@ -25,18 +25,11 @@ router.beforeEach((to, from, next) => {
         let shuju = localStorage.getItem("ff_shuju")
 
         //判断是否有用户信息
-        if (shuju) {
-            next()
+        if (!shuju) {
+            localStorage.removeItem("ff_token")
+            next('/login')
         } else {
-            loginApp.login().then(res => {
-                if (res.msg == "ok") {
-                    localStorage.getItem("ff_shuju", JSON.stringify(res.data))
-                    next()
-                } else {
-                    localStorage.removeItem("ff_token")
-                    next('/login')
-                }
-            })
+            next()
         }
     }
 })

@@ -9,7 +9,7 @@ const loading = {
     if (this.loadingInstance === null) {
       this.loadingInstance = Loading.service({
         target: ".main",
-        text: "正在加载中",
+        text: "正在加载中",  
         background: "rgba(0,0,0,0.5)"
       });
     }
