@@ -27,14 +27,14 @@ export default {
         pass: ""
       },
       rules: {
-        name: [
-          { required: true, message: "请输入账号", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
-        ],
-        pass: [
-          { required: true, message: "请输入密码", trigger: "blur" },
-          { min: 5, max: 10, message: "长度在 5 到 10 个字符", trigger: "blur" }
-        ]
+        // name: [
+        //   { required: true, message: "请输入账号", trigger: "blur" },
+        //   { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+        // ],
+        // pass: [
+        //   { required: true, message: "请输入密码", trigger: "blur" },
+        //   { min: 5, max: 10, message: "长度在 5 到 10 个字符", trigger: "blur" }
+        // ]
       }
     };
   },
@@ -55,8 +55,8 @@ export default {
               localStorage.setItem("ff_shuju", JSON.stringify(res.data));
               this.$router.push("/");
               this.$message({
-                message: res.msg,
-                type: "warning"
+                message: '登录成功',
+                type: "success"
               });
             } else {
               // 获取信息失败, 弹出警告
