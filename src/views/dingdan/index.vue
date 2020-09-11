@@ -3,17 +3,9 @@
     <el-row class="tac" style="width:100%;">
       <el-col :span="12" style="width:100%;">
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" :router="true">
-          <el-menu-item index="/dingdan/dingguan">
+          <el-menu-item @click="toogle(index)" v-for="(item,index) in list" :key="index">
             <i class="el-icon-menu"></i>
-            <span slot="title">订单管理</span>
-          </el-menu-item>
-          <el-menu-item index="/dingdan/fapiao">
-            <i class="el-icon-document"></i>
-            <span slot="title">发票管理</span>
-          </el-menu-item>
-          <el-menu-item index="/dingdan/shouhou">
-            <i class="el-icon-setting"></i>
-            <span slot="title">售后服务</span>
+            <span slot="title">{{ item.name }}</span>
           </el-menu-item>
         </el-menu>
       </el-col>
@@ -28,8 +20,27 @@ export default {
     return {};
   },
   created() {},
+  computed: {
+    list() {
+      let d = JSON.parse(localStorage.getItem("ff_shuju"));
+      let id = this.$store.state.activeIndex;
+      return d.tree[id].child;
+    }
+  },
   mounted() {},
-  methods: {}
+  methods: {
+    toogle(id) {
+      if (id == 0) {
+        this.$router.push("/dingdan/dingguan");
+      }
+      if (id == 1) {
+        this.$router.push("/dingdan/fapiao");
+      }
+      if (id == 2) {
+        this.$router.push("/dingdan/shouhou");
+      }
+    }
+  }
 };
 </script>
 

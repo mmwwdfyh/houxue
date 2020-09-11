@@ -34,19 +34,22 @@ export default {
     let list = JSON.parse(localStorage.getItem("ff_shuju"));
     let toom = list.tree;
     this.room = toom;
-    console.log(this.room);
+    // console.log(this.room);
   },
   mounted() {},
   methods: {
     toogle(id) {
       this.activefyh = id;
-      console.log(this.active);
+
+      this.$store.state.activeIndex = id
+
       const a = this.room[id].desc;
       // console.log(a)
       const str = a.replace(/_/g, "/");
       // // console.log(this.headerList[i].child);
       this.$router.push("/" + str);
-      console.log(str);
+
+      // console.log(str);
       // if (id == 5) {
       //   this.$router.push("/home");
       // }

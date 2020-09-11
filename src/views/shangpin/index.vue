@@ -3,25 +3,9 @@
     <el-row class="tac" style="width:100%;">
       <el-col :span="12" style="width:100%;">
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" :router="true">
-          <el-menu-item index="/shangpin/liebiao">
+          <el-menu-item v-for="(item,index) in list" :key="index" @click="toogle(index)">
             <i class="el-icon-menu"></i>
-            <span slot="title">商品列表</span>
-          </el-menu-item>
-          <el-menu-item index="/shangpin/fenlei">
-            <i class="el-icon-document"></i>
-            <span slot="title">分类商品</span>
-          </el-menu-item>
-          <el-menu-item index="/shangpin/guige">
-            <i class="el-icon-setting"></i>
-            <span slot="title">商品规格</span>
-          </el-menu-item>
-          <el-menu-item index="/shangpin/leixing">
-            <i class="el-icon-setting"></i>
-            <span slot="title">商品类型</span>
-          </el-menu-item>
-          <el-menu-item index="/shangpin/pinglun">
-            <i class="el-icon-setting"></i>
-            <span slot="title">商品评论</span>
+            <span slot="title">{{ item.name }}</span>
           </el-menu-item>
         </el-menu>
       </el-col>
@@ -37,7 +21,32 @@ export default {
   },
   created() {},
   mounted() {},
-  methods: {}
+  computed: {
+    list() {
+      let d = JSON.parse(localStorage.getItem("ff_shuju"));
+      let id = this.$store.state.activeIndex;
+      return d.tree[id].child;
+    }
+  },
+  methods: {
+    toogle(id) {
+      if (id == 0) {
+        this.$router.push("/shangpin/liebiao");
+      }
+      if (id == 1) {
+        this.$router.push("/shangpin/fenlei");
+      }
+      if (id == 2) {
+        this.$router.push("/shangpin/guige");
+      }
+      if (id == 3) {
+        this.$router.push("/shangpin/leixing");
+      }
+      if (id == 4) {
+        this.$router.push("/shangpin/pinglun");
+      }
+    }
+  }
 };
 </script>
 

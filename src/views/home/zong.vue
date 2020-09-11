@@ -2,22 +2,10 @@
   <div class="box">
     <el-row class="tac" style="width:100%;">
       <el-col :span="12" style="width:100%;">
-        <el-menu
-          :default-active="$route.path"
-          class="el-menu-vertical-demo"
-          :router="true"
-        >
-          <el-menu-item index="/home/zong/houShou">
+        <el-menu :default-active="$route.path" class="el-menu-vertical-demo" :router="true">
+          <el-menu-item @click="tooleg(index)" v-for="(item,index) in list" :key="index">
             <i class="el-icon-menu"></i>
-            <span slot="title">后台首页</span>
-          </el-menu-item>
-          <el-menu-item index="/home/zong/xiangce">
-            <i class="el-icon-document"></i>
-            <span slot="title">相册管理</span>
-          </el-menu-item>
-          <el-menu-item index="/shangpin/liebiao">
-            <i class="el-icon-setting"></i>
-            <span slot="title">商品列表</span>
+            <span slot="title">{{ item.name }}</span>
           </el-menu-item>
         </el-menu>
       </el-col>
@@ -29,11 +17,34 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      foom: []
+    };
   },
   created() {},
+  computed: {
+    list() {
+      let d = JSON.parse(localStorage.getItem("ff_shuju"));
+      let id = this.$store.state.activeIndex;
+      // console.log(id);
+      return d.tree[id].child;
+    }
+  },
   mounted() {},
-  methods: {}
+  methods: {
+    tooleg(id) {
+      // console.log(id);
+      if (id == 0) {
+        this.$router.push("/home/zong/houShou");
+      }
+      if (id == 1) {
+        this.$router.push("/home/zong/xiangce");
+      }
+      if (id == 2) {
+        this.$router.push("/shangpin/liebiao");
+      }
+    }
+  }
 };
 </script>
 
@@ -50,6 +61,9 @@ export default {
     .el-menu {
       border: none;
     }
+  }
+  /deep/.el-menu-item.is-active {
+    color: #000;
   }
 }
 </style>
