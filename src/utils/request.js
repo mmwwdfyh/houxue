@@ -41,9 +41,9 @@ req.interceptors.request.use(
     loading.open();
 
     
-    // let token = localStorage.getItem("jy_token") ? localStorage.getItem("jy_token") : "";
-    //发送token
-    //  config.headers.Authorization ="Bearer " + token;
+    let token = localStorage.getItem("ff_token") ? localStorage.getItem("ff_token") : "";
+    // 发送token
+     config.headers.Authorization ="Bearer " + token;
 
     return config;
   },

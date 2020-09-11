@@ -18,7 +18,7 @@
           <el-input v-model="formInline.user" placeholder="输入图片名称"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">搜索</el-button>
+          <el-button type="primary">搜索</el-button>
         </el-form-item>
       </el-form>
       <el-row>
@@ -44,10 +44,10 @@
       <!-- 新增相册 -->
       <el-dialog :modal="false" :visible.sync="dialogFormVisible">
         <el-form :model="form">
-          <el-form-item label="活动名称" :label-width="formLabelWidth">
+          <el-form-item label="活动名称">
             <el-input v-model="form.name" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="活动区域" :label-width="formLabelWidth">
+          <el-form-item label="活动区域">
             <el-select v-model="form.region" placeholder="请选择活动区域">
               <el-option label="区域一" value="shanghai"></el-option>
               <el-option label="区域二" value="beijing"></el-option>
@@ -61,12 +61,24 @@
       </el-dialog>
     </div>
     <div class="room">
-
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
+import getData from "../../api/shu";
 export default {
   data() {
     return {
@@ -83,7 +95,9 @@ export default {
       }
     };
   },
-  created() {},
+  created() {
+    this.getlist()
+  },
   mounted() {},
   methods: {
     open1() {
@@ -91,7 +105,12 @@ export default {
     },
     open() {
       this.dialogFormVisible = true;
-    }
+    },
+    // getlist() {
+    //   getData.list().then(res => {
+    //     console.log(res);
+    //   });
+    // }
   }
 };
 </script>
@@ -139,10 +158,24 @@ export default {
     }
   }
 }
-.room{
+.room {
   width: 200px;
-  height: 400px;
-  border: 1px solid #ccc;
+  height: 380px;
   background-color: #fff;
+  overflow: hidden;
+  position: fixed;
+  left: 164px;
+  overflow-y: scroll;
+  ul {
+    overflow-y: scroll;
+    overflow: hidden;
+
+    li {
+      width: 100%;
+      padding: 26px 10px;
+      background-color: #fff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+  }
 }
 </style>
