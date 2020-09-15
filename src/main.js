@@ -11,7 +11,7 @@ Vue.prototype.$echarts = Echarts
 // 权限验证
 import "./permission"
 
-
+Vue.prototype.$axios = axios
 // ul
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';

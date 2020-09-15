@@ -9,7 +9,7 @@ const loading = {
     if (this.loadingInstance === null) {
       this.loadingInstance = Loading.service({
         target: ".main",
-        text: "正在加载中",  
+        text: "正在加载中",
         background: "rgba(0,0,0,0.5)"
       });
     }
@@ -30,8 +30,8 @@ const loading = {
 // 创建axios实例，在axios实例里面可以自定义一些请求的选项
 const req = axios.create({
   // 设置公共路径
-  // baseURL: process.env.VUE_APP_BASE_API,
-  timeout: 5000  //设置请求超时时间
+  baseURL: process.env.VUE_APP_BASE_API,
+  timeout: ''  //设置请求超时时间
 })
 
 // 请求拦截器
@@ -40,10 +40,10 @@ req.interceptors.request.use(
     //进行loading加载
     loading.open();
 
-    
+
     let token = localStorage.getItem("ff_token") ? localStorage.getItem("ff_token") : "";
     // 发送token
-     config.headers.Authorization ="Bearer " + token;
+    config.headers.token = token;
 
     return config;
   },

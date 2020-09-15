@@ -49,13 +49,14 @@ export default {
             console.log(res);
             if (res.msg == "ok") {
               let token = res.data.token;
+              this.$store.state.getoken = token;
               console.log(token);
               // 储存到本地
               localStorage.setItem("ff_token", token);
               localStorage.setItem("ff_shuju", JSON.stringify(res.data));
               this.$router.push("/");
               this.$message({
-                message: '登录成功',
+                message: "登录成功",
                 type: "success"
               });
             } else {

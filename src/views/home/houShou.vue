@@ -65,9 +65,12 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      list: ""
+    };
   },
-  created() {},
+  created() {
+  },
   mounted() {},
   methods: {}
 };

@@ -4,7 +4,7 @@ export default {
     // 登录
     login(username, password) {
         return axios({
-            url: "http://ceshi5.dishait.cn/admin/login",
+            url: "/login",
             method: "post",
             data: {
                 username,
@@ -12,11 +12,12 @@ export default {
             }
         })
     },
-    logout(data) {
-        return axios({
-            url: "http://ceshi5.dishait.cn/admin/logout",
-            method: "post",
-            data
-        })
-    }
+    // logout(data) {
+    //     return axios({
+    //         url: "http://ceshi5.dishait.cn/admin/logout",
+    //         method: "post",
+    //         data
+    //     })
+    // },
+
 }

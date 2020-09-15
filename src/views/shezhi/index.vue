@@ -52,4 +52,7 @@ export default {
     }
   }
 }
+  /deep/.el-menu-item.is-active {
+    color: #000;
+  }
 </style>

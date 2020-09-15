@@ -5,9 +5,21 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    activeIndex:0,
+    activeIndex: 0,
+    getoken: "",
+    getinfo: "",
   },
-  mutations: {},
+  getters: {
+
+  },
+  mutations: {
+    getoken(state, token) {
+      state.token = token
+    },
+    getinfo(state, user) {
+      state.user = user
+    },
+  },
   actions: {},
   modules: {}
 });
