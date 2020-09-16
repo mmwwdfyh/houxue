@@ -10,46 +10,82 @@
       <button>添加规格</button>
       <button>批量删除</button>
     </div>
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table :data="list" border style="width: 100%">
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="date" label="日期" width="180"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="180"></el-table-column>
-      <el-table-column prop="address" label="地址"></el-table-column>
+      <el-table-column prop="name" label="规格名称" width="180"></el-table-column>
+      <el-table-column prop="default" label="规格值" width="260"></el-table-column>
+      <el-table-column prop="order" label="排序" width="260"></el-table-column>
+      <el-table-column label="status" width="200">
+        <template slot-scope="scope">
+          <!-- <span></span> -->
+          <el-button size="mini">{{scope.row.status | check}}</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="180">
+        <template slot-scope="scope">
+          <el-button size="mini">修改</el-button>
+          <el-button size="mini"  @click="remove(scope.row.id)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
+import updata from "../../api/guige";
+const status = [
+  {
+    type: 0,
+    name: "禁用"
+  },
+  {
+    type: 1,
+    name: "启用"
+  }
+];
 export default {
   data() {
     return {
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ]
+      form: {
+        page: 1,
+        limit: 10
+      },
+      id: 0,
+      list: []
     };
   },
-  created() {},
+  created() {
+    this.guige();
+  },
+  // 遍历商品状态
+  filters: {
+    check(data) {
+      // console.log(data);
+      let checkV = status.find((item, index) => {
+        // console.log(item);
+        return item.type == data;
+      });
+      return checkV.name;
+    }
+  },
   mounted() {},
-  methods: {}
+  methods: {
+    // 数据
+    guige() {
+      updata.gui(this.form.page, this.form.limit).then(res => {
+        console.log(res);
+        this.list = res.data.list;
+      });
+    },
+    // 删除
+    remove(id) {
+      //  alert(id);
+        updata.dele(id).then(res => {
+        console.log(res);
+        this.guige()
+      });
+    }
+  }
 };
 </script>
 
@@ -109,7 +145,7 @@ export default {
     margin-top: 20px;
   }
 }
-.el-table{
-    margin-left: 20px;
+.el-table {
+  margin-left: 20px;
 }
 </style>

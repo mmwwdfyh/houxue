@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import store from "../../store/index"
+
 export default {
   data() {
     return {
@@ -25,8 +27,8 @@ export default {
   computed: {
     list() {
       let d = JSON.parse(localStorage.getItem("ff_shuju"));
-      let id = this.$store.state.activeIndex;
-      // console.log(id);
+      let id = store.state.activeIndex;
+      console.log(id);
       return d.tree[id].child;
     }
   },

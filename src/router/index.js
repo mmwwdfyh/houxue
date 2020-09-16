@@ -44,6 +44,13 @@ const routes = [
             path: "/shangpin/liebiao",
             name: "shangpin/liebiao",
             component: () => import("../views/shangpin/liebiao.vue"),
+            children:[
+              {
+                path:"/shop/goods/fabu",
+                name:"shopGoodsFabu",
+                component:()=>import("../views/shangpin/fabu.vue")
+              }
+            ]
           },
           {
             path: "/shangpin/fenlei",

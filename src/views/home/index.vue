@@ -23,6 +23,7 @@
 
 <script>
 // import logout from "@/api/test";
+import store from "../../store/index"
 export default {
   data() {
     return {
@@ -35,13 +36,18 @@ export default {
     let toom = list.tree;
     this.room = toom;
     // console.log(this.room);
+    // let ff = store.getters.get_token
+    // console.log(ff)
   },
   mounted() {},
   methods: {
     toogle(id) {
       this.activefyh = id;
-
-      this.$store.state.activeIndex = id
+ 
+      let qq = store.getters.activeIndex
+      console.log(qq)
+      // store.state.activeIndex = id
+      // id = this.qq
 
       const a = this.room[id].desc;
       // console.log(a)

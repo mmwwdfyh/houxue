@@ -15,4 +15,29 @@ export default {
             method: "get"
         })
     },
+    // 删除
+    dele(id) {
+        return axios({
+            url: `/goods/${id}/delete`,
+            method: "post"
+        })
+    },
+    // 批量删除
+    remove(form) {
+        return axios({
+            url: `/goods/delete_all`,
+            method: "post",
+            data: {
+                form
+            }
+        })
+    },
+    // 发布
+    Publish(data){
+        return axios({
+            url:"/goods",
+            method:"post",
+            data:data
+        })
+    }
 }

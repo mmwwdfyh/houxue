@@ -2,13 +2,16 @@ import axios from 'axios'
 
 import { Loading } from 'element-ui';
 
+// import {getToken} from "../utils/auth.js"
+
+
 //封装loading加载
 const loading = {
   loadingInstance: null,
   open() {
     if (this.loadingInstance === null) {
       this.loadingInstance = Loading.service({
-        target: ".main",
+        target: "body",
         text: "正在加载中",
         background: "rgba(0,0,0,0.5)"
       });
@@ -44,6 +47,11 @@ req.interceptors.request.use(
     let token = localStorage.getItem("ff_token") ? localStorage.getItem("ff_token") : "";
     // 发送token
     config.headers.token = token;
+
+       //获取vuex里面保存的token通过header发送给后台
+      //  const token = getToken() ? getToken() : ""
+
+      //  config.headers.token = token;
 
     return config;
   },

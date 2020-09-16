@@ -21,26 +21,26 @@
     </el-menu>
     <div class="fyh_toom">
       <div class="toom">
-        <button>发布商品</button>
-        <button>批量删除</button>
+        <button @click="$router.push('/shop/goods/fabu')">发布商品</button>
+        <button @click="batch">批量删除</button>
         <button>上架</button>
         <button>下架</button>
       </div>
       <div class="room">
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
+        <el-form :inline="true" class="demo-form-inline">
           <el-form-item>
-            <el-input placeholder="要搜索的商品名称"></el-input>
+            <el-input placeholder="要搜索的商品名称" v-model="prads"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" v-model="formInline.sou" @click="onSubmit">搜索</el-button>
+            <el-button type="primary" @click="onSubmit">搜索</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" v-model="formInline.gsou" @click="onSubmit">高级搜索</el-button>
+            <el-button type="primary">高级搜索</el-button>
           </el-form-item>
         </el-form>
       </div>
     </div>
-    <el-table class="tab" :data="list" height="360" border style="width: 100%">
+    <el-table class="tab" :data="seach" height="360" border style="width: 100%">
       <el-table-column type="selection" width="50"></el-table-column>
       <el-table-column width="280" label="商品">
         <template slot-scope="scope">
@@ -66,19 +66,18 @@
       <el-table-column prop="stock" width="80" label="总库存"></el-table-column>
       <el-table-column prop="min_price" width="120" label="价格(元)"></el-table-column>
       <el-table-column width="360" label="操作" class="she">
-        <center>
-        <template>
+        <template slot-scope="scope">
           <span>基础设置</span>
           <span>商品规格</span>
           <span>商品属性</span>
           <span>媒体设置</span>
           <span>商品详情</span>
           <span>折扣设置</span>
-          <span>删除商品</span>
+          <span @click="dele(scope.row.id)">删除商品</span>
         </template>
-        </center>
       </el-table-column>
     </el-table>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -113,50 +112,14 @@ export default {
         sou: "",
         gsou: ""
       },
-      tableData: [
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-08",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        }
-      ],
       foom: {
         limt: 10,
         tab: ""
       },
       list: [],
       total: "",
-      cate: []
+      cate: [],
+      prads: ""
     };
   },
   // 遍历商品状态
@@ -170,12 +133,23 @@ export default {
       return payValue.name;
     },
     check(data) {
-      console.log(data);
+      // console.log(data);
       let check = ischeck.find((item, index) => {
-        console.log(item);
+        // console.log(item);
         return item.type == data;
       });
       return check.name;
+    }
+  },
+  computed: {
+    seach() {
+      let data = this.list;
+      return data.filter(item => {
+        return item.title.indexOf(this.prads) > -1;
+      });
+      // return data.filter(item => {
+      //   return item.title.indexOf(this.prads) > -1;
+      // });
     }
   },
   created() {
@@ -186,7 +160,8 @@ export default {
     handleSelect() {},
     // 搜索
     onSubmit() {
-      console.log(11);
+      // console.log(11);
+      // this.seach()
     },
     // 请求数据
     listt() {
@@ -198,6 +173,16 @@ export default {
         // 总条数
         this.total = res.data.totalCount;
       });
+    },
+    // 删除
+    dele(id) {
+      qing.dele(id).then(res => {
+        this.listt();
+      });
+    },
+    // 批量删除
+    batch() {
+      alert(111);
     }
   }
 };

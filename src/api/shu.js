@@ -6,6 +6,9 @@ export default {
         return axios({
             url: `/imageclass/${page}`,
             method: "get",
+            params:{
+                size:size
+            }
         })
     },
     // 图片列表

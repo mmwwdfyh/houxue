@@ -313,7 +313,8 @@ export default {
         .then(res => {
           console.log(res);
           this.boom = res.data.list;
-          // this.idd = res.data.list.id;
+          this.idd = res.data.list.id;
+          console.log(this.idd)
           // this.updata();
         });
     },

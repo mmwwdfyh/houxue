@@ -3,23 +3,10 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {
-    activeIndex: 0,
-    getoken: "",
-    getinfo: "",
-  },
-  getters: {
+import user from "./module/user.js"
 
-  },
-  mutations: {
-    getoken(state, token) {
-      state.token = token
-    },
-    getinfo(state, user) {
-      state.user = user
-    },
-  },
-  actions: {},
-  modules: {}
+export default new Vuex.Store({
+  modules: {
+    user
+  }
 });

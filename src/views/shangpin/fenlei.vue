@@ -23,7 +23,11 @@
         draggable
         :allow-drop="allowDrop"
         :allow-drag="allowDrag"
-      ></el-tree>
+      >
+      <template>
+        
+      </template>
+      </el-tree>
     </div>
   </div>
 </template>
@@ -37,6 +41,7 @@ export default {
       data: [
         {
           label: "诺基亚",
+          button:"删除",
           children: [
             {
               label: "新分类",
