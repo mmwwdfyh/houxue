@@ -106,7 +106,9 @@
       </div>
     </el-dialog>
     <!-- 图片预览 -->
-    <el-dialog :modal="false" :visible.sync="fdialogFormXiu"></el-dialog>
+    <el-dialog class="img" :modal="false" width="60%"  :visible.sync="fdialogFormXiu">
+      <img :src="prveImg" alt />
+    </el-dialog>
     <!-- 图片列表 -->
     <div class="foom">
       <el-col :span="8" v-for="(o, index) in boom " :key="index">
@@ -114,7 +116,7 @@
           <img :src="o.url" class="image" />
           <div class="span" style="padding: 14px;">
             <el-button-group>
-              <el-button type="primary" icon="el-icon-view"></el-button>
+              <el-button type="primary" icon="el-icon-view" @click="show(index,o)"></el-button>
               <el-button type="primary" icon="el-icon-edit" @click="tan(o)"></el-button>
               <el-button type="primary" icon="el-icon-delete" @click="remove(o.id)"></el-button>
             </el-button-group>
@@ -202,7 +204,9 @@ export default {
       },
       keyword: "",
       albumId: 0,
-      bianshu: ""
+      xtpid: 0,
+      bianshu: "",
+      prveImg:'',
     };
   },
   created() {
@@ -230,7 +234,13 @@ export default {
     // 图片列表
     pai() {
       getData
-        .tu(this.id, this.currentPages, this.pageSizes, this.order, this.keyword)
+        .tu(
+          this.id,
+          this.currentPages,
+          this.pageSizes,
+          this.order,
+          this.keyword
+        )
         .then(res => {
           console.log(res);
           this.boom = res.data.list;
@@ -265,7 +275,7 @@ export default {
           this.getlist();
         }
         this.dialogFormVisible = false;
-        this.form = "";
+        this.form.name = "";
       });
     },
     // 修改相册
@@ -275,7 +285,7 @@ export default {
         .then(res => {
           console.log(res);
           this.changeAlbumDialog = false;
-          // this.getlist();
+          this.getlist();
         });
     },
     xiubum(id) {
@@ -352,15 +362,23 @@ export default {
     // 修改单张图片
     tan(id) {
       console.log(id);
+      this.xtpid = id.id;
       this.bianshu = id.name;
       this.dialogFormXiu = true;
     },
     yes() {
-      getData.biant(this.bianshu).then(res => {
+      getData.biant(this.xtpid, this.bianshu).then(res => {
         // console.log(res);
         this.pai();
       });
       this.dialogFormXiu = false;
+    },
+    // 预览图片
+    show(index, item) {
+      console.log(index);
+      console.log(item);
+      this.fdialogFormXiu = true
+      this.prveImg = item.url
     }
   }
 };
@@ -539,5 +557,11 @@ export default {
   width: 400px;
   margin: 0 auto;
   text-align: center;
+}
+.img{
+  img{
+    width:100%;
+    height: 100%;
+  }
 }
 </style>
