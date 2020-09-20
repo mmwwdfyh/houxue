@@ -6,19 +6,14 @@
         <el-breadcrumb-item>商品列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <el-menu
-      :default-active="activeIndex"
-      class="el-menu-demo"
-      mode="horizontal"
-      @select="handleSelect"
-    >
-      <el-menu-item index="1">全部</el-menu-item>
-      <el-menu-item index="3">审核中</el-menu-item>
-      <el-menu-item index="4">出售中</el-menu-item>
-      <el-menu-item index="5">已下架</el-menu-item>
-      <el-menu-item index="6">库存预警</el-menu-item>
-      <el-menu-item index="7">回收站</el-menu-item>
-    </el-menu>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="全部" name="all"></el-tab-pane>
+      <el-tab-pane label="审核中" name="checking"></el-tab-pane>
+      <el-tab-pane label="出售中" name="saling"></el-tab-pane>
+      <el-tab-pane label="已下架" name="off"></el-tab-pane>
+      <el-tab-pane label="库存预警" name="min_stock"></el-tab-pane>
+      <el-tab-pane label="回收站" name="delete"></el-tab-pane>
+    </el-tabs>
     <div class="fyh_toom">
       <div class="toom">
         <button @click="$router.push('/shop/goods/fabu')">发布商品</button>
@@ -40,7 +35,7 @@
         </el-form>
       </div>
     </div>
-    <el-table class="tab" :data="seach" height="360" border style="width: 100%">
+    <el-table class="tab" :data="seach" height="320" border style="width: 100%">
       <el-table-column type="selection" width="50"></el-table-column>
       <el-table-column width="280" label="商品">
         <template slot-scope="scope">
@@ -77,6 +72,17 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="block">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="foom.pager"
+        :page-sizes="[10,20,30]"
+        :page-size="foom.limt"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      ></el-pagination>
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -114,12 +120,15 @@ export default {
       },
       foom: {
         limt: 10,
-        tab: ""
+        tab: "",
+        pager: 1
       },
       list: [],
       total: "",
       cate: [],
-      prads: ""
+      prads: "",
+      activeName: "all",
+      currentPage4: 4
     };
   },
   // 遍历商品状态
@@ -163,16 +172,23 @@ export default {
       // console.log(11);
       // this.seach()
     },
+    handleClick(tab) {
+      console.log(tab);
+      this.activeName = tab.name;
+      this.listt();
+    },
     // 请求数据
     listt() {
-      qing.commodity(this.foom.limt, this.foom.tab).then(res => {
-        console.log(res);
-        // 数据
-        this.list = res.data.list;
+      qing
+        .commodity(this.foom.pager, this.foom.limt, this.activeName)
+        .then(res => {
+          console.log(res);
+          // 数据
+          this.list = res.data.list;
 
-        // 总条数
-        this.total = res.data.totalCount;
-      });
+          // 总条数
+          this.total = res.data.totalCount;
+        });
     },
     // 删除
     dele(id) {
@@ -183,6 +199,18 @@ export default {
     // 批量删除
     batch() {
       alert(111);
+    },
+    // 条数
+    handleSizeChange(val) {
+      this.foom.limt = val;
+      this.listt();
+      console.log(val);
+    },
+    //页数
+    handleCurrentChange(vale) {
+      this.foom.pager = vale;
+      this.listt();
+      console.log(vale);
     }
   }
 };
@@ -253,15 +281,15 @@ export default {
 .el-menu {
   margin-left: 20px;
 }
+.el-tabs {
+  margin-left: 20px;
+}
 .el-table {
   margin-left: 20px;
   img {
     width: 80px;
     height: 80px;
     float: left;
-  }
-  .loop {
-    float: right;
   }
 }
 .el-table_1_column_8 {

@@ -9,6 +9,7 @@ export function getToken() {
     return localStorage.getItem(ADMIN_TOKEN);
 }
 
+
 //设置token
 export function setToken(token) {
     localStorage.setItem(ADMIN_TOKEN, token)

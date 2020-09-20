@@ -6,16 +6,21 @@ export default {
         return axios({
             url: `/imageclass/${page}`,
             method: "get",
-            params:{
-                size:size
+            params: {
+                size: size
             }
         })
     },
     // 图片列表
     tu(id, page, limit, order, keyword) {
         return axios({
-            url: `/imageclass/${id}/image/${page}?limit=${limit}&order=${order}&keyword=${keyword}`,
+            url: `/imageclass/${id}/image/${page}`,
             method: "get",
+            params: {
+                limit,
+                order,
+                keyword
+            }
         })
     },
     // 添加相册名称
@@ -29,21 +34,38 @@ export default {
             }
         })
     },
-    // 删除
+    // 删除相册
     shan(id) {
         return axios({
             url: `/imageclass/${id}`,
             method: "DELETE"
         })
     },
-    // 上传图片
-    uploading(img, image_class_id) {
+    // 删除单张图片
+    remove(id) {
         return axios({
-            url: `/image/upload`,
+            url: `/image/${id}`,
+            method: "DELETE"
+        })
+    },
+    // 修改相册
+    chexu(id, name, order) {
+        return axios({
+            url: `/imageclass/${id}`,
             method: "post",
             data: {
-                img,
-                image_class_id
+                order,
+                name
+            }
+        })
+    },
+    // 编辑图片
+    biant(id, name) {
+        return axios({
+            url: `/image/${id}`,
+            method: "post",
+            data: {
+                name
             }
         })
     }

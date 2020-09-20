@@ -9,7 +9,7 @@
     <div class="toom">
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
         <el-form-item>
-          <el-select v-model="formInline.region" placeholder="升序">
+          <el-select v-model="formInline.region" placeholder="排序">
             <el-option label="降序" value="shanghai"></el-option>
             <el-option label="升序" value="beijing"></el-option>
           </el-select>
@@ -26,12 +26,16 @@
         <el-button type="text" @click="open1">上传图片</el-button>
       </el-row>
       <!-- 图片上传 -->
-      <el-dialog title="提示" :modal="false" :visible.sync="dialogVisible" width="30%">
-        <!-- <el-upload
+      <el-dialog title="上传图片" :visible.sync="dialogUpload" @closed="upload">
+        <el-upload
           class="upload-demo"
           drag
-          action="https://jsonplaceholder.typicode.com/posts/"
+          action="/fff/image/upload"
           multiple
+          :headers="{ token:$store.state.user.token }"
+          :data="{ image_class_id:id }"
+          name="img"
+          :on-success="uploadSuccess"
         >
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">
@@ -39,29 +43,11 @@
             <em>点击上传</em>
           </div>
           <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload>-->
-        <el-upload
-          ref="imgBroadcastUpload"
-          :auto-upload="false"
-          multiple
-          :file-list="diaLogForm.imgBroadcastList"
-          list-type="picture-card"
-          :on-change="imgBroadcastChange"
-          :on-remove="imgBroadcastRemove"
-          accept="image/jpg, image/png, image/jpeg"
-          action
-        >
-          <i class="el-icon-plus"></i>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2M</div>
         </el-upload>
-        <el-button @click="tijiao">submitData</el-button>
       </el-dialog>
       <!-- 新增相册 -->
       <el-dialog :modal="false" :visible.sync="dialogFormVisible">
         <el-form :model="form">
-          <!-- <el-form-item>
-           相册名称 <el-input v-model="form.name" autocomplete="off"></el-input>
-          </el-form-item>-->
           <h1>创建相册</h1>
           <div class="mingcheng">
             <span>相册名称</span>
@@ -84,128 +70,44 @@
         </div>
       </el-dialog>
     </div>
+    <!-- 左侧相册 -->
     <div class="room">
       <ul>
         <li v-for="(item,index) in list" :key="index" @click="toogle(item.id)">
           <p>{{ item.name }}</p>
-          <el-dropdown class="yan">
+          <el-dropdown class="yan" @command="drop">
+            <!-- -->
             <el-button size="mini" style="margin-left:24px;">
               <span>{{ item.images_count }}</span>
               <i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改</el-dropdown-item>
-              <!-- <el-dropdown-item @command="shanchu">删除</el-dropdown-item> -->
-              <button class="shan" @click="shanchu(item.id)">删除</button>
+              <el-dropdown-item :command="beforeHandleCommand(item.id,'x')">修改</el-dropdown-item>
+              <!-- <button class="shan" @click="shanchu(item.id)">删除</button> -->
+              <el-dropdown-item :command="beforeHandleCommand(item.id,'s')">删除</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </li>
-        <!-- <li>
-          <p></p>
-          <el-dropdown class="yan">
-            <el-button size="mini" style="margin-left:24px;">
-              2
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </li>-->
-        <!-- <li>
-          <span>煊赫门</span>
-          <el-dropdown class="yan">
-            <el-button size="mini" style="margin-left:24px;">
-              2
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </li>
-        <li>
-          <span>3333</span>
-          <el-dropdown class="yan">
-            <el-button size="mini" style="margin-left:24px;">
-              1
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </li>
-        <li>
-          <span>付义航</span>
-          <el-dropdown class="yan">
-            <el-button size="mini" style="margin-left:24px;">
-              5
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </li>
-        <li>
-          <span>付义航</span>
-          <el-dropdown class="yan">
-            <el-button size="mini" style="margin-left:24px;">
-              1
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </li>
-        <li>
-          <span>张</span>
-          <el-dropdown class="yan">
-            <el-button size="mini" style="margin-left:24px;">
-              2
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </li>
-        <li>
-          <span>小鱼</span>
-          <el-dropdown class="yan">
-            <el-button size="mini" style="margin-left:24px;">
-              2
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </li>
-        <li>
-          <span>玛卡巴卡</span>
-          <el-dropdown class="yan">
-            <el-button size="mini" style="margin-left:24px;">
-              1
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </li>-->
       </ul>
     </div>
+    <!-- 修改相册 -->
+    <el-dialog :modal="false" title="修改相册" :visible.sync="changeAlbumDialog">
+      <el-form :model="xiufrom">
+        <el-form-item label="相册名称" label-width="80px" prop="name">
+          <el-input v-model="xiufrom.name" placeholder="请输入相册名称"></el-input>
+        </el-form-item>
+        <el-form-item label="相册排序" label-width="80px">
+          <el-input-number v-model="xiufrom.order" :min="0" label></el-input-number>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="changeAlbumDialog = false">取 消</el-button>
+        <el-button type="primary" @click="que('getlist')">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 图片预览 -->
+    <el-dialog :modal="false" :visible.sync="fdialogFormXiu"></el-dialog>
+    <!-- 图片列表 -->
     <div class="foom">
       <el-col :span="8" v-for="(o, index) in boom " :key="index">
         <el-card :body-style="{ padding: '0px' }">
@@ -213,24 +115,32 @@
           <div class="span" style="padding: 14px;">
             <el-button-group>
               <el-button type="primary" icon="el-icon-view"></el-button>
-              <el-button type="primary" icon="el-icon-edit"></el-button>
-              <el-button type="primary" icon="el-icon-delete"></el-button>
+              <el-button type="primary" icon="el-icon-edit" @click="tan(o)"></el-button>
+              <el-button type="primary" icon="el-icon-delete" @click="remove(o.id)"></el-button>
             </el-button-group>
           </div>
           <p>{{ o.name }}</p>
         </el-card>
       </el-col>
     </div>
+    <!-- 编辑图片弹框-->
+    <el-dialog :modal="false" :visible.sync="dialogFormXiu">
+      <p>提示</p>
+      <h2>输入新名称</h2>
+      <input type="text" v-model="bianshu" />
+      <button @click="dialogFormXiu = false">取消</button>
+      <button @click="yes">确定</button>
+    </el-dialog>
     <!-- 分页器 -->
     <div class="block">
       <el-pagination
         @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage4"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
+        @current-change="handleCurrentChanges"
+        :current-page="currentPages"
+        :page-sizes="[5,10,15]"
+        :page-size="pageSizes"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
+        :total="totalCount"
       ></el-pagination>
       <div class="fyh_fen">
         <el-pagination
@@ -239,7 +149,7 @@
           prev-text="上一页"
           next-text="下一页"
           layout="prev,next"
-          :total="this.idd"
+          :total="this.total"
         ></el-pagination>
       </div>
     </div>
@@ -247,52 +157,62 @@
 </template>
 <script>
 import getData from "../../api/shu";
-import { uploadImgToBase64 } from "../../api/utlis";
 export default {
   data() {
     return {
-      currentPage4: 4,
+      // currentPage: 4,
       formInline: {
         user: "",
         region: ""
       },
       imageUrl: "",
-      dialogVisible: false,
+      dialogUpload: false,
       dialogFormVisible: false,
+      changeAlbumDialog: false,
+      dialogFormXiu: false,
+      fdialogFormXiu: false,
+      // 添加相册
       form: {
         name: "",
         region: 1
       },
+      // 修改相册
+      xiufrom: {
+        id: 0,
+        name: "",
+        order: 0
+      },
+      // 分页
       currentPage: 1,
+      currentPages: 1,
       pageSize: 10,
+      pageSizes: 5,
       list: [],
-      id: 238,
+      id: 0,
       order: "",
       boom: [],
-      idd: 0,
+      // 总条数列表
+      total: 0,
+      // 图片
+      totalCount: 0,
       index: 0,
       foom: {
         url: "",
         image_class_id: 0
       },
       keyword: "",
-      diaLogForm: {
-        goodsName: "", // 商品名称字段
-        imgBroadcastList: [], // 储存选中的图片列表
-        imgsStr: "" // 后端需要的多张图base64字符串 , 分割
-        // img: "",
-        // image_class_id: ""
-      }
+      albumId: 0,
+      bianshu: ""
     };
   },
   created() {
     this.getlist();
-    this.pai();
   },
   mounted() {},
   methods: {
+    // 创建相册
     open1() {
-      this.dialogVisible = true;
+      this.dialogUpload = true;
     },
     open() {
       this.dialogFormVisible = true;
@@ -302,26 +222,39 @@ export default {
       getData.list(this.currentPage).then(res => {
         console.log(res);
         this.list = res.data.list;
-        this.idd = res.data.totalCount;
+        this.total = res.data.totalCount;
         // console.log(this.idd);
+        this.toogle(res.data.list[0].id);
       });
     },
     // 图片列表
     pai() {
       getData
-        .tu(this.id, this.currentPage, this.pageSize, this.order, this.keyword)
+        .tu(this.id, this.currentPages, this.pageSizes, this.order, this.keyword)
         .then(res => {
           console.log(res);
           this.boom = res.data.list;
-          this.idd = res.data.list.id;
-          console.log(this.idd)
-          // this.updata();
+          this.totalCount = res.data.totalCount;
         });
     },
+    // 点击切换
     toogle(id) {
       this.id = id;
-      console.log(id);
+      // console.log(id);
       this.pai();
+    },
+    // 上传图片
+    uploadSuccess(response, file, fileList) {
+      console.log(response.msg);
+      if (response.msg == "ok") {
+        this.$message("上传成功");
+        this.dialogUpload = false;
+        this.pai();
+        this.getlist();
+      }
+    },
+    upload() {
+      this.getlist();
     },
     // 添加相册
     tian() {
@@ -332,71 +265,102 @@ export default {
           this.getlist();
         }
         this.dialogFormVisible = false;
+        this.form = "";
       });
+    },
+    // 修改相册
+    que() {
+      getData
+        .chexu(this.xiufrom.id, this.xiufrom.name, this.xiufrom.order)
+        .then(res => {
+          console.log(res);
+          this.changeAlbumDialog = false;
+          // this.getlist();
+        });
+    },
+    xiubum(id) {
+      this.changeAlbumDialog = true;
+      let contat = this.list.filter((item, index) => {
+        return item.id == id;
+      });
+      this.xiufrom = contat[0];
     },
     // 删除
     shanchu(index) {
-      console.log(index);
+      // console.log(index);
+      // this.$confirm("是否删除该相册？", "提示", {
+      //   confirmButtonText: "确定",
+      //   cancelButtonText: "取消",
+      //   type: "warning"
+      // }).then(() => {
       getData.shan(index).then(res => {
         this.getlist();
       });
+      // });
     },
+    // 图片
     handleSizeChange(all) {
       console.log(all);
+      this.pageSizes = all;
+      this.getlist();
     },
-    handleCurrentChange(size) {
-      console.log(size);
+    handleCurrentChanges(g) {
+      console.log(g);
+      this.currentPages = g;
+      this.getlist();
+    },
+    // 上一页下一页
+    handleCurrentChange(currentPage) {
+      this.currentPage = currentPage;
+      this.getlist();
     },
     handleChange(value) {
-      console.log(value);
+      // console.log(value);
     },
-    // 上传图片
-    // updata() {},
-    tijiao() {
-      getData.uploading(this.foom.image_class_id, this.foom.url).then(res => {
-        console.log(res);
+    //获取当前要修改属性的id
+    beforeHandleCommand(item, command) {
+      return {
+        item: item,
+        command: command
+      };
+    },
+    drop(command) {
+      console.log(command);
+      switch (command.command) {
+        case "x":
+          this.xiubum(command.item);
+          break;
+        case "s":
+          this.shanchu(command.item);
+          break;
+      }
+    },
+    // 删除单张图片
+    remove(id) {
+      console.log(id);
+      this.$confirm("是否删除该相册？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        getData.remove(id).then(res => {
+          this.pai();
+          this.getlist();
+        });
+      });
+    },
+    // 修改单张图片
+    tan(id) {
+      console.log(id);
+      this.bianshu = id.name;
+      this.dialogFormXiu = true;
+    },
+    yes() {
+      getData.biant(this.bianshu).then(res => {
+        // console.log(res);
         this.pai();
       });
-    },
-    // 图片选择后 保存在 diaLogForm.imgBroadcastList 对象中
-    imgBroadcastChange(file, fileList) {
-      const isLt2M = file.size / 1024 / 1024 < 2; // 上传头像图片大小不能超过 2MB
-      if (!isLt2M) {
-        this.diaLogForm.imgBroadcastList = fileList.filter(
-          v => v.uid !== file.uid
-        );
-        this.$message.error(
-          "图片选择失败，每张图片大小不能超过 2MB,请重新选择!"
-        );
-      } else {
-        this.diaLogForm.imgBroadcastList.push(file);
-      }
-    },
-    // 有图片移除后 触发
-    imgBroadcastRemove(file, fileList) {
-      this.diaLogForm.imgBroadcastList = fileList;
-    },
-    // 提交弹窗数据
-    async submitDialogData() {
-      const imgBroadcastListBase64 = [];
-      console.log("图片转base64开始...");
-      // 并发 转码轮播图片list => base64
-      const filePromises = this.diaLogForm.imgBroadcastList.map(async file => {
-        const response = await uploadImgToBase64(file.raw);
-        return response.result.replace(/.*;base64,/, ""); // 去掉data:image/jpeg;base64,
-      });
-      // 按次序输出 base64图片
-      for (const textPromise of filePromises) {
-        imgBroadcastListBase64.push(await textPromise);
-      }
-      console.log("图片转base64结束..., ", imgBroadcastListBase64);
-      this.diaLogForm.imgsStr = imgBroadcastListBase64.join();
-      console.log(this.diaLogForm);
-      const res = await addCommodity(this.diaLogForm); // 发请求提交表单
-      if (res.status) {
-        this.$message.success("添加商品成功");
-        // 一般提交成功后后端会处理，在需要展示商品地方会返回一个图片路径
-      }
+      this.dialogFormXiu = false;
     }
   }
 };
@@ -567,5 +531,13 @@ export default {
   background-color: #fff;
   border-top: 1px solid #ccc;
   border-right: 1px solid #ccc;
+}
+/deep/.el-dialog {
+  z-index: 999;
+}
+.upload-demo {
+  width: 400px;
+  margin: 0 auto;
+  text-align: center;
 }
 </style>

@@ -2,10 +2,14 @@ import axios from "@/utils/request"
 
 export default {
     // 商品数据
-    commodity(limit, tab) {
+    commodity(page,limit, tab) {
         return axios({
-            url: `/goods/1?limit=${limit}&tab=${tab}`,
-            method: "get"
+            url: `/goods/${page}`,
+            method: "get",
+            params:{
+                limit,
+                tab
+            }
         })
     },
     // 分类

@@ -1,5 +1,85 @@
 <template>
-  <div class="wrap"></div>
+  <div class="wrap">
+    <el-form ref="form" :model="form" label-width="80px">
+      <el-form-item label="商品名称">
+        <el-input v-model="form.title"></el-input>
+      </el-form-item>
+      <el-form-item label="商品分类">
+        <el-select v-model="form.name" placeholder="请选择活动区域">
+          <el-option label="区域一" value="shanghai"></el-option>
+          <el-option label="区域二" value="beijing"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="商品描述">
+        <el-input type="textarea" v-model="form.desc"></el-input>
+      </el-form-item>
+      <el-form-item label="商品单位">
+        <el-input v-model="form.name"></el-input>
+      </el-form-item>
+      <el-form-item label="总库存">
+        <el-input-number
+          v-model="nums"
+          controls-position="right"
+          @change="handleChange"
+          :min="1"
+          :max="10"
+        ></el-input-number>
+      </el-form-item>
+      <el-form-item label="库存预测">
+        <el-input-number
+          v-model="nums"
+          controls-position="right"
+          @change="handleChange"
+          :min="1"
+          :max="10"
+        ></el-input-number>
+      </el-form-item>
+      <el-form-item label="最低销售价">
+        <el-input-number
+          v-model="nums"
+          controls-position="right"
+          @change="handleChange"
+          :min="1"
+          :max="10"
+        ></el-input-number>
+      </el-form-item>
+      <el-form-item label="最低原价">
+        <el-input-number
+          v-model="nums"
+          controls-position="right"
+          @change="handleChange"
+          :min="1"
+          :max="10"
+        ></el-input-number>
+      </el-form-item>
+      <div class="right">
+        <el-form-item label="库存显示">
+          <el-radio-group v-model="form.resource" size="medium">
+            <el-radio border label="是"></el-radio>
+            <el-radio border label="否"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="是否上架">
+          <el-radio-group v-model="form.resource" size="medium">
+            <el-radio border label="放入仓库"></el-radio>
+            <el-radio border label="立即上架"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-select v-model="value" placeholder="请选择">
+          <!-- <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+          ></el-option>-->
+        </el-select>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">立即创建</el-button>
+          <el-button>取消</el-button>
+        </el-form-item>
+      </div>
+    </el-form>
+  </div>
 </template>
 
 <script>
@@ -7,7 +87,7 @@
 export default {
   data() {
     return {
-      from: {
+      form: {
         category_id: 0,
         cover: "",
         desc: "",
@@ -20,8 +100,19 @@ export default {
         stock: "",
         stock_display: 1,
         title: "",
-        unit: ""
-      }
+        unit: "",
+        // 未修改
+        name: "",
+        region: "",
+        date1: "",
+        date2: "",
+        delivery: false,
+        type: [],
+        resource: "",
+        desc: ""
+      },
+      nums: 1,
+      value: "",
     };
   },
   created() {
@@ -34,7 +125,11 @@ export default {
     //   qing.Publish(this.from).then(res => {
     //     console.log(res);
     //   });
-    // }
+    // },
+    onSubmit() {},
+    handleChange(value) {
+      console.log(value);
+    },
   }
 };
 </script>
@@ -48,6 +143,15 @@ export default {
   right: 0;
   left: 12%;
   z-index: 999;
-  background-color: red;
+  background-color: #fff;
+  margin-top: 40px;
+  .el-form {
+    width: 1000px;
+  }
+}
+.right {
+  position: absolute;
+  right: 200px;
+  bottom: 100px;
 }
 </style>

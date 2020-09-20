@@ -24,7 +24,7 @@ export default {
   computed: {
     list() {
       let d = JSON.parse(localStorage.getItem("ff_shuju"));
-      let id = this.$store.state.activeIndex;
+      let id = this.$store.state.user.activeIndex;
       return d.tree[id].child;
     }
   },

@@ -24,6 +24,7 @@
 <script>
 // import logout from "@/api/test";
 import store from "../../store/index"
+import good from '../../store/module/user'
 export default {
   data() {
     return {
@@ -44,9 +45,9 @@ export default {
     toogle(id) {
       this.activefyh = id;
  
-      let qq = store.getters.activeIndex
-      console.log(qq)
-      // store.state.activeIndex = id
+      // let qq = this.$store.state.activeIndex
+      // console.log(qq)
+      store.state.user.activeIndex = id
       // id = this.qq
 
       const a = this.room[id].desc;

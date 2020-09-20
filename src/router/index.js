@@ -152,8 +152,6 @@ const routes = [
   },
 ];
 
-// import routes from "./config/routes"
-
 
 
 const router = new VueRouter({
