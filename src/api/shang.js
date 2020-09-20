@@ -2,11 +2,11 @@ import axios from "@/utils/request"
 
 export default {
     // 商品数据
-    commodity(page,limit, tab) {
+    commodity(page, limit, tab) {
         return axios({
             url: `/goods/${page}`,
             method: "get",
-            params:{
+            params: {
                 limit,
                 tab
             }
@@ -37,11 +37,11 @@ export default {
         })
     },
     // 发布
-    Publish(data){
+    Publish() {
         return axios({
-            url:"/goods",
-            method:"post",
-            data:data
+            url: "/goods",
+            method: "post",
+
         })
     }
 }

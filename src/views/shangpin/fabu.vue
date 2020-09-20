@@ -5,20 +5,20 @@
         <el-input v-model="form.title"></el-input>
       </el-form-item>
       <el-form-item label="商品分类">
-        <el-select v-model="form.name" placeholder="请选择活动区域">
+        <el-select v-model="form.desc" placeholder="请选择活动区域">
           <el-option label="区域一" value="shanghai"></el-option>
           <el-option label="区域二" value="beijing"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="商品描述">
-        <el-input type="textarea" v-model="form.desc"></el-input>
+        <el-input type="textarea" v-model="form.unit"></el-input>
       </el-form-item>
       <el-form-item label="商品单位">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.stock"></el-input>
       </el-form-item>
       <el-form-item label="总库存">
         <el-input-number
-          v-model="nums"
+          v-model="form.min_stock"
           controls-position="right"
           @change="handleChange"
           :min="1"
@@ -27,7 +27,7 @@
       </el-form-item>
       <el-form-item label="库存预测">
         <el-input-number
-          v-model="nums"
+          v-model="form.min_price"
           controls-position="right"
           @change="handleChange"
           :min="1"
@@ -36,7 +36,7 @@
       </el-form-item>
       <el-form-item label="最低销售价">
         <el-input-number
-          v-model="nums"
+          v-model="form.min_oprice"
           controls-position="right"
           @change="handleChange"
           :min="1"
@@ -45,7 +45,7 @@
       </el-form-item>
       <el-form-item label="最低原价">
         <el-input-number
-          v-model="nums"
+          v-model="form.express_id"
           controls-position="right"
           @change="handleChange"
           :min="1"
@@ -60,18 +60,19 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="是否上架">
-          <el-radio-group v-model="form.resource" size="medium">
+          <el-radio-group v-model="form.stock_display" size="medium">
             <el-radio border label="放入仓库"></el-radio>
             <el-radio border label="立即上架"></el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="form.status" placeholder="请选择">
           <!-- <el-option
           v-for="item in options"
           :key="item.value"
           :label="item.label"
           :value="item.value"
           ></el-option>-->
+          <el-option label="区域二" value="beijing"></el-option>
         </el-select>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -83,7 +84,7 @@
 </template>
 
 <script>
-// import qing from "../../api/shang";
+import qing from "../../api/shang";
 export default {
   data() {
     return {
@@ -100,19 +101,8 @@ export default {
         stock: "",
         stock_display: 1,
         title: "",
-        unit: "",
-        // 未修改
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
-      },
-      nums: 1,
-      value: "",
+        unit: ""
+      }
     };
   },
   created() {
@@ -126,10 +116,15 @@ export default {
     //     console.log(res);
     //   });
     // },
-    onSubmit() {},
+    onSubmit(data) {
+      console.log(data);
+      qing.Publish(this.form).then(res => {
+        console.log(res);
+      });
+    },
     handleChange(value) {
       console.log(value);
-    },
+    }
   }
 };
 </script>

@@ -12,12 +12,15 @@ export default {
             }
         })
     },
-    // logout(data) {
-    //     return axios({
-    //         url: "http://ceshi5.dishait.cn/admin/logout",
-    //         method: "post",
-    //         data
-    //     })
-    // },
+    // 退出登录
+    logout(token) {
+        return axios({
+            url: "/logout",
+            method: "post",
+            data: {
+                token
+            }
+        })
+    },
 
 }

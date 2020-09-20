@@ -24,9 +24,9 @@
         :allow-drop="allowDrop"
         :allow-drag="allowDrag"
       >
-      <template>
-        
-      </template>
+        <!-- <span class="custom-tree-node" slot-scope="{node,data}">
+
+        </span> -->
       </el-tree>
     </div>
   </div>
@@ -41,7 +41,7 @@ export default {
       data: [
         {
           label: "诺基亚",
-          button:"删除",
+          button: "删除",
           children: [
             {
               label: "新分类",

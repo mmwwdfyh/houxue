@@ -56,8 +56,44 @@
             <p>仓库中</p>
           </li>
         </ul>
+        <div class="left_title2">
+          <p>交易提示</p>
+          <p>需要立即处理的交易订单</p>
+        </div>
+        <ul class="title_list2">
+          <li>
+            <p>64</p>
+            <p>代付款</p>
+          </li>
+          <li>
+            <p>10</p>
+            <p>代发货</p>
+          </li>
+          <li>
+            <p>0</p>
+            <p>已发货</p>
+          </li>
+          <li>
+            <p>3</p>
+            <p>已收货</p>
+          </li>
+          <li>
+            <p>3</p>
+            <p>退款中</p>
+          </li>
+          <li>
+            <p>3</p>
+            <p>代售后</p>
+          </li>
+        </ul>
       </div>
-      <div class="room_right"></div>
+      <div class="room_right">
+        <div id="main" style="width: 520px; height: 320px;"></div>
+      </div>
+    </div>
+    <div class="wrap_bottom">
+      <div class="bottom_left"></div>
+      <div class="bottom_right"></div>
     </div>
   </div>
 </template>
@@ -65,21 +101,140 @@
 <script>
 export default {
   data() {
-    return {
-      list: ""
-    };
+    return {};
   },
-  created() {
+  created() {},
+  mounted() {
+    this.fyh();
   },
-  mounted() {},
-  methods: {}
+  methods: {
+    fyh() {
+      let myChart = this.$echarts.init(document.getElementById("main"));
+      //指定图表的配置项和数据
+      let option = {
+        tooltip: {
+          trigger: "axis"
+        },
+        legend: {
+          data: ["邮件营销", "联盟广告", "视频广告", "直接访问", "搜索引擎"]
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            mark: {
+              show: true
+            },
+            // dataView: {
+            //   show: true,
+            //   readOnly: true
+            // },
+            magicType: {
+              show: false,
+              type: ["line", "bar", "stack", "tiled"]
+            },
+            // restore: {
+            //   show: true
+            // },
+            saveAsImage: {
+              show: true
+            }
+          }
+        },
+        calculable: true,
+        xAxis: [
+          {
+            type: "category",
+            boundaryGap: false,
+            data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+          }
+        ],
+        yAxis: [
+          {
+            type: "value"
+          }
+        ],
+        series: [
+          {
+            name: "邮件营销",
+            type: "line",
+            stack: "总量",
+            itemStyle: {
+              normal: {
+                areaStyle: {
+                  type: "default"
+                }
+              }
+            },
+            data: [120, 132, 101, 134, 90, 230, 210]
+          },
+          {
+            name: "联盟广告",
+            type: "line",
+            stack: "总量",
+            itemStyle: {
+              normal: {
+                areaStyle: {
+                  type: "default"
+                }
+              }
+            },
+            data: [220, 182, 191, 234, 290, 330, 310]
+          },
+          {
+            name: "视频广告",
+            type: "line",
+            stack: "总量",
+            itemStyle: {
+              normal: {
+                areaStyle: {
+                  type: "default"
+                }
+              }
+            },
+            data: [150, 232, 201, 154, 190, 330, 410]
+          },
+          {
+            name: "直接访问",
+            type: "line",
+            stack: "总量",
+            itemStyle: {
+              normal: {
+                areaStyle: {
+                  type: "default"
+                }
+              }
+            },
+            data: [320, 332, 301, 334, 390, 330, 320]
+          },
+          {
+            name: "搜索引擎",
+            type: "line",
+            stack: "总量",
+            itemStyle: {
+              normal: {
+                areaStyle: {
+                  type: "default"
+                }
+              }
+            },
+            data: [820, 932, 901, 934, 1290, 1330, 1320]
+          }
+        ]
+      };
+      //使用刚指定的配置项和数据显示图表
+      myChart.setOption(option);
+    }
+  }
 };
 </script>
 
 <style scoped lang="scss">
 .wrap {
   width: 100%;
-  height: 100%;
+  height: 564px;
+  overflow: hidden;
+  overflow-y: scroll;
+  flex-shrink: 0;
   position: fixed;
   top: 60px;
   right: 0;
@@ -162,7 +317,7 @@ export default {
       width: 39.6%;
       height: 320px;
       float: left;
-      border: 1px solid #ccc;
+      // border: 1px solid #ccc;
       margin-right: 20px;
       .left_title {
         height: 60px;
@@ -182,7 +337,7 @@ export default {
         width: 100%;
         height: 94px;
         background-color: #fff;
-        margin-top: 3px;
+        margin-top: 2px;
         border-radius: 3px;
         li {
           float: left;
@@ -197,12 +352,67 @@ export default {
           background-color: #dae0e5;
         }
       }
+      .left_title2 {
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        background-color: #fff;
+        float: left;
+        margin-top: 3px;
+        p:nth-of-type(1) {
+          float: left;
+          margin-left: 20px;
+        }
+        p:nth-of-type(2) {
+          float: right;
+          margin-right: 20px;
+        }
+      }
+      .title_list2 {
+        float: left;
+        width: 100%;
+        height: 94px;
+        background-color: #fff;
+        margin-top: 3px;
+        border-radius: 3px;
+        li {
+          float: left;
+          width: 12.2%;
+          line-height: 34px;
+          text-align: center;
+          background-color: #f8f9fa;
+          margin: 12px 9px 0 12px;
+          border-radius: 3px;
+        }
+        li:hover {
+          background-color: #dae0e5;
+        }
+      }
     }
     .room_right {
-      border: 1px solid #ccc;
+      background-color: #fff;
       width: 39.6%;
       float: left;
       height: 320px;
+    }
+  }
+  .wrap_bottom {
+    width: 100%;
+    float: left;
+    margin-left: 43px;
+    margin-top: 16px;
+    .bottom_left {
+      width: 39.6%;
+      height: 320px;
+      background-color: #fff;
+      float: left;
+      margin-right: 20px;
+    }
+    .bottom_right {
+      width: 39.6%;
+      height: 320px;
+      background-color: #fff;
+      float: left;
     }
   }
 }

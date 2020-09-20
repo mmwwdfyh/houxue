@@ -14,7 +14,12 @@
         </el-dropdown-menu>
       </el-dropdown>
       <ul>
-        <li v-for="(item,index) in room"  :key="index" :class="activefyh == index ? 'active' : ''" @click="toogle(index)">{{ item.name }}</li>
+        <li
+          v-for="(item,index) in room"
+          :key="index"
+          :class="activefyh == index ? 'active' : ''"
+          @click="toogle(index)"
+        >{{ item.name }}</li>
       </ul>
     </div>
     <router-view />
@@ -23,13 +28,13 @@
 
 <script>
 // import logout from "@/api/test";
-import store from "../../store/index"
-import good from '../../store/module/user'
+import store from "../../store/index";
+import remove from "../../api/test";
 export default {
   data() {
     return {
       room: [],
-      activefyh:0
+      activefyh: 0
     };
   },
   created() {
@@ -44,10 +49,10 @@ export default {
   methods: {
     toogle(id) {
       this.activefyh = id;
- 
+
       // let qq = this.$store.state.activeIndex
       // console.log(qq)
-      store.state.user.activeIndex = id
+      store.state.user.activeIndex = id;
       // id = this.qq
 
       const a = this.room[id].desc;
@@ -87,10 +92,24 @@ export default {
       //   console.log(res);
       // });
       //清除本地储存的token
-      localStorage.removeItem("ff_token");
-      //清除本地储存的信息
-      localStorage.removeItem("ff_info");
-      this.$router.push("/login");
+      // localStorage.removeItem("ff_token");
+      // //清除本地储存的信息
+      // localStorage.removeItem("ff_info");
+      // this.$router.push("/login");
+
+      // let token = localStorage.getItem("ff_token")
+      let token = store.getters.get_token;
+      // console.log(token);
+      remove.logout(this.token).then(res => {
+        // console.log(res);
+        if (res.msg == "ok") {
+          // 清除本地储存的token;
+          localStorage.removeItem("ff_token");
+          //清除本地储存的信息
+          localStorage.removeItem("ff_info");
+          this.$router.push("/login");
+        }
+      });
     }
   }
 };

@@ -15,7 +15,7 @@
       <el-table-column prop="name" label="规格名称" width="180"></el-table-column>
       <el-table-column prop="default" label="规格值" width="260"></el-table-column>
       <el-table-column prop="order" label="排序" width="260"></el-table-column>
-      <el-table-column label="status" width="200">
+      <el-table-column label="规格" width="200">
         <template slot-scope="scope">
           <!-- <span></span> -->
           <el-button size="mini">{{scope.row.status | check}}</el-button>

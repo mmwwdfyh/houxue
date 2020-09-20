@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import store from "../../store/index"
+import store from "../../store/index";
 
 export default {
   data() {
@@ -43,8 +43,7 @@ export default {
         this.$router.push("/home/zong/xiangce");
       }
       if (id == 2) {
-        this.$router.push("/shop/goods/list");
-        
+        this.$router.push("/shangpin/liebiao");
       }
     }
   }
