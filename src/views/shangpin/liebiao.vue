@@ -17,7 +17,7 @@
     <div class="fyh_toom">
       <div class="toom">
         <button @click="$router.push('/shop/goods/fabu')">发布商品</button>
-        <button @click="batch">批量删除</button>
+        <button @click="batch(tableCheck)">批量删除</button>
         <button>上架</button>
         <button>下架</button>
       </div>
@@ -35,7 +35,14 @@
         </el-form>
       </div>
     </div>
-    <el-table class="tab" :data="seach" height="320" border style="width: 100%">
+    <el-table
+      class="tab"
+      @selection-change="handleSelectionChange"
+      :data="seach"
+      height="320"
+      border
+      style="width: 100%"
+    >
       <el-table-column type="selection" width="50"></el-table-column>
       <el-table-column width="280" label="商品">
         <template slot-scope="scope">
@@ -118,6 +125,7 @@ export default {
         sou: "",
         gsou: ""
       },
+      // 分页
       foom: {
         limt: 10,
         tab: "",
@@ -128,7 +136,9 @@ export default {
       cate: [],
       prads: "",
       activeName: "all",
-      currentPage4: 4
+      currentPage4: 4,
+      // 表格被选中的记录
+      tableCheck: []
     };
   },
   // 遍历商品状态
@@ -166,6 +176,16 @@ export default {
   },
   mounted() {},
   methods: {
+    // 表格
+    handleSelectionChange(val) {
+      console.log(val);
+      this.tableCheck = val;
+    },
+    // 批量删除
+    batch(data) {
+      // alert(111);
+      console.log(data);
+    },
     handleSelect() {},
     // 搜索
     onSubmit() {
@@ -195,10 +215,6 @@ export default {
       qing.dele(id).then(res => {
         this.listt();
       });
-    },
-    // 批量删除
-    batch() {
-      alert(111);
     },
     // 条数
     handleSizeChange(val) {

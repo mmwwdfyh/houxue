@@ -5,20 +5,20 @@
         <el-input v-model="form.title"></el-input>
       </el-form-item>
       <el-form-item label="商品分类">
-        <el-select v-model="form.desc" placeholder="请选择活动区域">
+        <el-select v-model="form.category_id" placeholder="请选择活动区域">
           <el-option label="区域一" value="shanghai"></el-option>
           <el-option label="区域二" value="beijing"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="商品描述">
-        <el-input type="textarea" v-model="form.unit"></el-input>
+        <el-input type="textarea" v-model="form.desc"></el-input>
       </el-form-item>
       <el-form-item label="商品单位">
-        <el-input v-model="form.stock"></el-input>
+        <el-input v-model="form.unit"></el-input>
       </el-form-item>
       <el-form-item label="总库存">
         <el-input-number
-          v-model="form.min_stock"
+          v-model="form.stock"
           controls-position="right"
           @change="handleChange"
           :min="1"
@@ -27,7 +27,7 @@
       </el-form-item>
       <el-form-item label="库存预测">
         <el-input-number
-          v-model="form.min_price"
+          v-model="form.min_stock"
           controls-position="right"
           @change="handleChange"
           :min="1"
@@ -36,7 +36,7 @@
       </el-form-item>
       <el-form-item label="最低销售价">
         <el-input-number
-          v-model="form.min_oprice"
+          v-model="form.min_price"
           controls-position="right"
           @change="handleChange"
           :min="1"
@@ -45,7 +45,7 @@
       </el-form-item>
       <el-form-item label="最低原价">
         <el-input-number
-          v-model="form.express_id"
+          v-model="form.min_oprice"
           controls-position="right"
           @change="handleChange"
           :min="1"
@@ -54,25 +54,25 @@
       </el-form-item>
       <div class="right">
         <el-form-item label="库存显示">
-          <el-radio-group v-model="form.resource" size="medium">
-            <el-radio border label="是"></el-radio>
-            <el-radio border label="否"></el-radio>
+          <el-radio-group v-model="form.stock_display" size="medium">
+            <el-radio border label="1">是</el-radio>
+            <el-radio border label="0">否</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="是否上架">
-          <el-radio-group v-model="form.stock_display" size="medium">
-            <el-radio border label="放入仓库"></el-radio>
-            <el-radio border label="立即上架"></el-radio>
+          <el-radio-group v-model="form.status" size="medium">
+            <el-radio border :label="0">放入仓库</el-radio>
+            <el-radio border :label="1">立即上架</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-select v-model="form.status" placeholder="请选择">
+        <el-select v-model="form.express_id" placeholder="请选择">
           <!-- <el-option
           v-for="item in options"
           :key="item.value"
           :label="item.label"
           :value="item.value"
           ></el-option>-->
-          <el-option label="区域二" value="beijing"></el-option>
+          <!-- <el-option label="区域二" v-model="form.ischeck" value="beijing"></el-option> -->
         </el-select>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -89,19 +89,19 @@ export default {
   data() {
     return {
       form: {
+        title: "1",
         category_id: 0,
-        cover: "",
-        desc: "",
+        cover: "1",
+        desc: "1",
+        unit: "1",
+        stock: "1",
         express_id: 0,
         ischeck: 0,
-        min_oprice: "",
-        min_price: "",
-        min_stock: "",
-        status: 0,
-        stock: "",
-        stock_display: 1,
-        title: "",
-        unit: ""
+        min_oprice: "1",
+        min_price: "1",
+        min_stock: "1",
+        status: 1,
+        stock_display: 1
       }
     };
   },
@@ -118,9 +118,27 @@ export default {
     // },
     onSubmit(data) {
       console.log(data);
-      qing.Publish(this.form).then(res => {
-        console.log(res);
-      });
+      qing
+        .Publish(
+          this.form
+          // this.form.category_id,
+          // this.form.cover,
+          // this.form.desc,
+          // this.form.express_id,
+          // this.form.ischeck,
+          // this.form.min_oprice,
+          // this.form.min_price,
+          // this.form.min_stock,
+          // this.form.status,
+          // this.form.stock,
+          // this.form.stock_display,
+          // this.form.title,
+          // this.form.unit
+        )
+        .then(res => {
+          console.log(res);
+          this.$router.push("/shangpin/liebiao");
+        });
     },
     handleChange(value) {
       console.log(value);

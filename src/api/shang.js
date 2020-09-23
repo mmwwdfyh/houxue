@@ -41,7 +41,6 @@ export default {
         return axios({
             url: "/goods",
             method: "post",
-
         })
     }
 }
